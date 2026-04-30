@@ -1,38 +1,45 @@
-export default function ComunicacionesPage() {
+'use client';
+import Link from 'next/link';
+
+export default function ProfesorDashboard() {
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <h1 className="text-3xl font-bold text-sky-400 text-center">Centro de Mensajería Educativa</h1>
-      
-      <div className="bg-slate-800 rounded-3xl border border-slate-700 h-[600px] flex flex-col shadow-2xl overflow-hidden">
-        {/* Historial de Chat */}
-        <div className="flex-1 p-8 space-y-6 overflow-y-auto bg-slate-900/50">
-          <div className="flex flex-col items-start space-y-2">
-            <span className="text-xs font-bold text-sky-400 ml-4">PROFESOR - SISTEMA</span>
-            <div className="bg-slate-700 p-4 rounded-2xl rounded-tl-none border border-slate-600 max-w-[80%]">
-              <p className="text-sm">Estimados, les recuerdo que la entrega del Parcial 2 es este viernes.</p>
-            </div>
-          </div>
+    <div className="space-y-10 animate-in fade-in duration-700">
+      <header className="bg-slate-900 border border-slate-800 p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+        <p className="text-sky-400 font-mono text-xs uppercase tracking-widest mb-2">Libro de Clases Electrónico</p>
+        <h1 className="text-4xl font-black text-white italic">PANEL DOCENTE</h1>
+      </header>
 
-          <div className="flex flex-col items-end space-y-2">
-            <span className="text-xs font-bold text-slate-400 mr-4">ALUMNO (TÚ)</span>
-            <div className="bg-sky-500/10 p-4 rounded-2xl rounded-tr-none border border-sky-500/30 max-w-[80%]">
-              <p className="text-sm text-sky-100">Profesor, ¿el BFF debe ir en un repositorio separado o en el mismo?</p>
-            </div>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ModuleCard title="Pasar Lista" desc="Registro diario de asistencia y conducta." icon="✅" link="/profesor/asistencia" />
+        <ModuleCard title="Ingresar Notas" desc="Carga de calificaciones al sistema académico." icon="📝" link="/profesor/notas" />
+        <ModuleCard title="Planificar" desc="Gestión de evaluaciones y exámenes finales." icon="📅" link="/profesor/evaluaciones" />
+      </div>
 
-        {/* Caja de Texto */}
-        <div className="p-6 bg-slate-800 border-t border-slate-700 flex gap-4">
-          <input 
-            type="text" 
-            placeholder="Escribe tu consulta académica..." 
-            className="flex-1 bg-slate-900 border border-slate-600 rounded-xl px-5 py-3 text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none placeholder-slate-500 transition-all"
-          />
-          <button className="bg-sky-500 hover:bg-sky-600 text-slate-900 px-8 py-3 rounded-xl font-bold transition-transform active:scale-95 shadow-lg">
-            Enviar
-          </button>
+      <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
+        <h3 className="text-white font-bold mb-4 flex items-center gap-2">Estado de Cursos</h3>
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="p-4 bg-slate-950 rounded-xl border border-slate-800">
+            <p className="text-sky-400 font-bold">2° Medio A</p>
+            <p className="text-slate-500">Asistencia: Pendiente</p>
+          </div>
+          <div className="p-4 bg-slate-950 rounded-xl border border-slate-800">
+            <p className="text-sky-400 font-bold">3° Medio B</p>
+            <p className="text-slate-500">Asistencia: Registrada</p>
+          </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function ModuleCard({ title, desc, icon, link }: { title: string, desc: string, icon: string, link: string }) {
+  return (
+    <Link href={link} className="group bg-slate-900 border border-slate-800 p-6 rounded-2xl hover:border-sky-500/50 transition-all shadow-xl">
+      <div className="text-3xl mb-4 group-hover:scale-110 transition-transform">{icon}</div>
+      <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
+      <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
+      <div className="mt-6 text-sky-500 text-[10px] font-bold uppercase tracking-widest border-t border-slate-800 pt-4">Gestionar →</div>
+    </Link>
   );
 }
