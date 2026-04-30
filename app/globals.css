@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Negro claro para el fondo y gris claro para el texto */
+  --background: #121212;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +13,30 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background-color: var(--background) !important;
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  /* Usamos la propiedad CSS estándar en lugar de la clase de Tailwind */
+  min-height: 100vh; 
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Estilos para la barra de desplazamiento */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2d2d2d;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3d3d3d;
 }
