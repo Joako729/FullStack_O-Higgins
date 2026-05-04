@@ -1,27 +1,46 @@
 'use client';
-import Link from 'next/link';
+import React, { useState } from 'react';
+import { AlertFactory, GradeForm } from '@/ohiggins-ui';
 
-export default function IngresarNotasPage() {
+export default function ProfesorNotas() {
+  const [mensaje, setMensaje] = useState<string | null>(null);
+
+  const handleEnviarNota = async (data: { materia: string; estudiante: string; nota: number }) => {
+    // Aquí es donde conectarás con tu BFF en el futuro
+    console.log("Enviando a la base de datos vía BFF:", data);
+    
+    // Simulación de éxito
+    setMensaje(`Nota ${data.nota} para ${data.estudiante} en ${data.materia} guardada correctamente.`);
+    
+    // Desaparecer el mensaje después de 5 segundos
+    setTimeout(() => setMensaje(null), 5000);
+  };
+
   return (
-    <div className="space-y-6">
-      <Link href="/profesor" className="text-sky-400 text-sm hover:underline">← Volver</Link>
-      <h1 className="text-2xl font-bold text-white uppercase italic">Carga de Calificaciones</h1>
-      
-      <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
-        <div>
-          <label className="text-xs text-slate-500 uppercase font-bold">Seleccionar Evaluación</label>
-          <select className="w-full bg-slate-950 border border-slate-700 p-3 rounded-xl text-white mt-1 text-sm outline-none focus:ring-1 focus:ring-sky-500">
-            <option>Evaluación Parcial 2 - Implementación</option>
-            <option>Examen Final Transversal</option>
-          </select>
+    <div className="p-8 max-w-2xl mx-auto min-h-screen bg-slate-50">
+      <header className="mb-8 text-center">
+        <h1 className="text-3xl font-extrabold text-slate-900 italic">Colegio Bernardo O'Higgins</h1>
+        <p className="text-slate-500 mt-2">Módulo de Gestión Académica - Registro de Calificaciones</p>
+      </header>
+
+      {mensaje && (
+        <AlertFactory type="asistencia" text={mensaje} />
+      )}
+
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        <div className="bg-blue-600 p-4">
+          <h2 className="text-white font-semibold flex items-center">
+            Nuevo Registro de Evaluación
+          </h2>
         </div>
-        
-        <div className="p-4 bg-slate-950 rounded-xl border border-slate-800 text-center">
-          <p className="text-slate-500 text-xs italic">Cargue el archivo CSV con las notas o ingréselas manualmente en el siguiente paso.</p>
+        <div className="p-6">
+          <GradeForm onSubmit={handleEnviarNota} />
         </div>
-        
-        <button className="w-full bg-slate-800 text-sky-400 font-bold py-3 rounded-xl border border-sky-500/30 hover:bg-sky-500/10 transition-all">Sincronizar con Microservicio</button>
       </div>
+
+      <p className="text-center text-xs text-slate-400 mt-8">
+        Nota: Al presionar guardar, los datos se sincronizan mediante el microservicio de gestión académica.
+      </p>
     </div>
   );
 }
