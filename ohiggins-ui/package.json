@@ -1,11 +1,9 @@
 {
   "name": "ohiggins-ui",
   "version": "1.0.0",
-  "description": "Componentes UI para el Colegio Bernardo O'Higgins",
   "main": "index.js",
-  "author": "Joaquín Cáceres y Equipo",
-  "license": "ISC",
-  "dependencies": {
-    "react": "^18.0.0"
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   }
 }
