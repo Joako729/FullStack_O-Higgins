@@ -1,27 +1,17 @@
 import React from 'react';
 import { CheckCircle, AlertTriangle, MessageSquare } from 'lucide-react';
 
-interface AlertProps {
-  type: 'asistencia' | 'anotacion' | 'comunicado';
-  text: string;
-}
-
-export const AlertFactory: React.FC<AlertProps> = ({ type, text }) => {
+export default function AlertFactory({ type }: { type: 'asistencia' | 'anotacion' | 'comunicado' }) {
   const configs = {
-    asistencia: { color: "bg-blue-50 border-blue-500 text-blue-700", Icon: CheckCircle, label: "Asistencia" },
-    anotacion: { color: "bg-red-50 border-red-500 text-red-700", Icon: AlertTriangle, label: "Hoja de Vida" },
-    comunicado: { color: "bg-green-50 border-green-500 text-green-700", Icon: MessageSquare, label: "Comunicación" }
+    asistencia: { icon: <CheckCircle className="text-blue-600" />, title: "ASISTENCIA", bg: "bg-blue-50", border: "border-blue-400" },
+    anotacion: { icon: <AlertTriangle className="text-amber-600" />, title: "ANOTACIÓN", bg: "bg-amber-50", border: "border-amber-400" },
+    comunicado: { icon: <MessageSquare className="text-slate-600" />, title: "COMUNICADO", bg: "bg-slate-50", border: "border-slate-400" }
   };
-
-  const { color, Icon, label } = configs[type];
-
+  const c = configs[type];
   return (
-    <div className={`flex items-center p-4 border-l-4 rounded shadow-sm ${color} mb-4`}>
-      <Icon className="w-5 h-5 mr-3" />
-      <div>
-        <span className="text-xs font-bold uppercase tracking-wider">{label}</span>
-        <p className="text-sm">{text}</p>
-      </div>
+    <div className={`flex items-center p-4 border-l-4 ${c.bg} ${c.border} rounded-r-xl shadow-sm mb-4`}>
+      <div className="mr-3">{c.icon}</div>
+      <h4 className="font-bold text-blue-800 text-xs tracking-widest">{c.title}</h4>
     </div>
   );
-};
+}
