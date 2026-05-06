@@ -1,55 +1,60 @@
 // services/api.ts
-
-// Esta es la URL de tu Backend For Frontend (BFF) corriendo en IntelliJ
 const API_BASE = "http://localhost:8080/api/bff";
 
-// --- GESTIÓN DE NOTAS (Microservicio 8081) ---
+// --- 📚 GESTIÓN DE ASIGNATURAS (Materias) ---
+export const getAsignaturas = async () => {
+  const res = await fetch(`${API_BASE}/asignaturas`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Error al obtener asignaturas');
+  return res.json();
+};
 
-/**
- * Registra una nueva nota en el sistema.
- * @param nota Objeto con rutEstudiante, asignatura y valor.
- */
+export const createAsignatura = async (data: any) => 
+  fetch(`${API_BASE}/asignaturas`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+export const updateAsignatura = async (id: number, data: any) => 
+  fetch(`${API_BASE}/asignaturas/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+export const deleteAsignatura = async (id: number) => 
+  fetch(`${API_BASE}/asignaturas/${id}`, { method: 'DELETE' });
+
+// --- 📝 GESTIÓN DE NOTAS (El error de tu imagen) ---
 export const guardarNota = async (nota: { rutEstudiante: string; asignatura: string; valor: number }) => {
-  const response = await fetch(`${API_BASE}/notas/registrar`, {
+  const res = await fetch(`${API_BASE}/notas/registrar`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(nota),
   });
-  if (!response.ok) throw new Error('Error al guardar la nota');
-  return response.json();
+  if (!res.ok) throw new Error('Error al guardar la nota');
+  return res.json();
 };
 
-/**
- * Obtiene el listado de notas de un estudiante por su RUT.
- */
 export const obtenerNotas = async (rut: string) => {
-  const response = await fetch(`${API_BASE}/notas/estudiante/${rut}`);
-  if (!response.ok) throw new Error('Error al obtener las notas');
-  return response.json();
+  const res = await fetch(`${API_BASE}/notas/estudiante/${rut}`);
+  if (!res.ok) throw new Error('Error al obtener las notas');
+  return res.json();
 };
 
-
-// --- GESTIÓN DE ASISTENCIA (Microservicio 8082) ---
-
-/**
- * Registra la asistencia (Presente/Ausente) de un estudiante.
- * @param asistencia Objeto con rutEstudiante y estado.
- */
-export const registrarAsistencia = async (asistencia: { rutEstudiante: string; estado: string }) => {
-  const response = await fetch(`${API_BASE}/asistencia/registrar`, {
+// --- ✅ GESTIÓN DE ASISTENCIA ---
+export const registrarAsistencia = async (data: { rutEstudiante: string; estado: string }) => {
+  const res = await fetch(`${API_BASE}/asistencia/registrar`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(asistencia),
+    body: JSON.stringify(data),
   });
-  if (!response.ok) throw new Error('Error al registrar asistencia');
-  return response.json();
+  if (!res.ok) throw new Error('Error al registrar asistencia');
+  return res.json();
 };
 
-/**
- * Obtiene el historial de asistencia de un estudiante por su RUT.
- */
 export const obtenerAsistencia = async (rut: string) => {
-  const response = await fetch(`${API_BASE}/asistencia/estudiante/${rut}`);
-  if (!response.ok) throw new Error('Error al obtener el historial de asistencia');
-  return response.json();
+  const res = await fetch(`${API_BASE}/asistencia/estudiante/${rut}`);
+  if (!res.ok) throw new Error('Error al obtener asistencia');
+  return res.json();
 };

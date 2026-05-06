@@ -1,37 +1,49 @@
 "use client";
 import { useState } from 'react';
 import { AlertFactory } from '@/ohiggins-ui';
-import { registrarAsistencia } from '@/services/api';
+import AttendanceForm from '@/ohiggins-ui/AttendanceForm';
+import { registrarAsistencia } from '@/services/api'; // Importamos la función real
 
 export default function ProfesorAsistencia() {
-  const [rut, setRut] = useState('');
-  const [estado, setEstado] = useState('Presente');
-  const [msg, setMsg] = useState<string | null>(null);
+  const [mensaje, setMensaje] = useState<string | null>(null);
 
-  const enviar = async (e: any) => {
-    e.preventDefault();
-    await registrarAsistencia({ rutEstudiante: rut, estado });
-    setMsg(`Asistencia guardada para ${rut}`);
-    setRut('');
+  const handleRegistro = async (data: any) => {
+    try {
+      // 🚀 CONEXIÓN REAL: Llamamos al BFF
+      await registrarAsistencia({
+        rutEstudiante: data.estudiante, // Convertimos 'estudiante' del form a 'rutEstudiante'
+        estado: data.estado
+      });
+
+      setMensaje(`Asistencia de ${data.estudiante} registrada con éxito.`);
+      
+      // Limpia el mensaje después de 4 segundos
+      setTimeout(() => setMensaje(null), 4000);
+    } catch (error) {
+      console.error("Error al guardar:", error);
+      setMensaje("Error: No se pudo guardar en el servidor.");
+    }
   };
 
   return (
-    <div className="p-10 max-w-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Registro Docente: Asistencia</h1>
-      {msg && (
-        <div className="relative mb-6">
-          <AlertFactory type="asistencia" />
-          <p className="absolute top-8 left-14 text-blue-700 font-bold">{msg}</p>
-        </div>
+    <div className="p-8 max-w-4xl mx-auto min-h-screen bg-slate-50">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold text-indigo-900 italic">Colegio Bernardo O'Higgins</h1>
+        <p className="text-slate-500">Módulo de Control de Asistencia y Conducta</p>
+      </header>
+
+      {mensaje && (
+        <AlertFactory type="asistencia" text={mensaje} />
       )}
-      <form onSubmit={enviar} className="bg-white p-8 rounded-2xl shadow-xl border">
-        <input className="w-full border-2 p-3 rounded-xl mb-4" placeholder="RUT del Alumno" value={rut} onChange={e => setRut(e.target.value)} required />
-        <select className="w-full border-2 p-3 rounded-xl mb-6" value={estado} onChange={e => setEstado(e.target.value)}>
-          <option value="Presente">✅ Presente</option>
-          <option value="Ausente">❌ Ausente</option>
-        </select>
-        <button className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700">Guardar Asistencia</button>
-      </form>
+
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        <div className="bg-indigo-600 p-4">
+          <h2 className="text-white font-semibold">Pasar Lista - Día Actual</h2>
+        </div>
+        <div className="p-6">
+          <AttendanceForm onSubmit={handleRegistro} />
+        </div>
+      </div>
     </div>
   );
 }

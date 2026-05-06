@@ -1,49 +1,49 @@
-'use client';
-import Link from 'next/link';
+"use client";
+import { useState, useEffect } from 'react';
+import { getAsignaturas, createAsignatura, deleteAsignatura, updateAsignatura } from '@/services/api';
 
-export default function CursosAdminPage() {
-  const cursos = [
-    { id: 1, nivel: "Enseñanza Media", nombre: "1° Medio A", alumnos: 32 },
-    { id: 2, nivel: "Enseñanza Media", nombre: "2° Medio B", alumnos: 28 },
-    { id: 3, nivel: "Enseñanza Básica", nombre: "8° Básico A", alumnos: 35 },
-  ];
+export default function AdminMaterias() {
+  const [materias, setMaterias] = useState<any[]>([]);
+  const [form, setForm] = useState({ nombre: '', profesor: '', descripcion: '' });
+  const [editId, setEditId] = useState<number | null>(null);
+
+  const cargar = async () => setMaterias(await getAsignaturas());
+  useEffect(() => { cargar(); }, []);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    editId ? await updateAsignatura(editId, form) : await createAsignatura(form);
+    setForm({ nombre: '', profesor: '', descripcion: '' });
+    setEditId(null);
+    cargar();
+  };
 
   return (
-    <div className="space-y-8">
-      <header>
-        <Link href="/admin" className="text-sky-400 text-xs hover:underline">← Volver al Panel</Link>
-        <h1 className="text-3xl font-black text-white mt-2 italic uppercase">Configuración de Cursos</h1>
-      </header>
+    <div className="p-10 max-w-6xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8">Administración de Asignaturas</h1>
+      
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-md border mb-10 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <input className="border p-3 rounded-lg" placeholder="Nombre" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} required />
+        <input className="border p-3 rounded-lg" placeholder="Profesor" value={form.profesor} onChange={e => setForm({...form, profesor: e.target.value})} required />
+        <input className="border p-3 rounded-lg" placeholder="Descripción" value={form.descripcion} onChange={e => setForm({...form, descripcion: e.target.value})} />
+        <button className="bg-blue-600 text-white font-bold p-3 rounded-lg hover:bg-blue-700 transition">
+          {editId ? 'Actualizar' : 'Crear Materia'}
+        </button>
+      </form>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
-        <div className="p-6 border-b border-slate-800 flex justify-between items-center">
-          <p className="text-slate-400 text-sm">Estructura académica actual</p>
-          <button className="bg-sky-500 text-slate-950 px-4 py-2 rounded-xl font-bold text-xs hover:bg-sky-600 transition-all">
-            + Crear Nuevo Curso
-          </button>
-        </div>
-        <table className="w-full text-left">
-          <thead className="bg-slate-800/50 text-sky-400 text-[10px] font-bold uppercase tracking-widest">
-            <tr>
-              <th className="p-5">Nivel</th>
-              <th className="p-5">Nombre del Curso</th>
-              <th className="p-5">Total Estudiantes</th>
-              <th className="p-5">Acciones</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800">
-            {cursos.map(c => (
-              <tr key={c.id} className="hover:bg-slate-800/30 transition-colors">
-                <td className="p-5 text-slate-400 text-sm">{c.nivel}</td>
-                <td className="p-5 text-white font-bold">{c.nombre}</td>
-                <td className="p-5 text-slate-300 font-mono text-sm">{c.alumnos}</td>
-                <td className="p-5">
-                  <button className="text-sky-400 text-xs hover:text-white transition-colors">Editar</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid gap-4">
+        {materias.map((m) => (
+          <div key={m.id} className="flex justify-between items-center bg-white p-5 border rounded-xl shadow-sm">
+            <div>
+              <h3 className="text-xl font-bold text-slate-800">{m.nombre}</h3>
+              <p className="text-slate-500">Docente: {m.profesor}</p>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => { setForm(m); setEditId(m.id); }} className="text-blue-600 font-bold hover:underline">Editar</button>
+              <button onClick={async () => { await deleteAsignatura(m.id); cargar(); }} className="text-red-500 font-bold hover:underline">Eliminar</button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
