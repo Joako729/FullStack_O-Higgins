@@ -7,7 +7,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const session = localStorage.getItem('session');
-    if (session) setAdminName('Joaquín Cáceres');
+    if (session) setAdminName('Admin');
   }, []);
 
   return (

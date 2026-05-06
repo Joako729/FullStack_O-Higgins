@@ -7,7 +7,7 @@ export default function ProfesorDashboard() {
       <header className="bg-slate-900 border border-slate-800 p-8 rounded-3xl relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
         <p className="text-sky-400 font-mono text-xs uppercase tracking-widest mb-2">Libro de Clases Electrónico</p>
-        <h1 className="text-4xl font-black text-white italic">PANEL DOCENTE</h1>
+        <h1 className="text-4xl font-black text-white italic">PANEL DE PROFESOR</h1>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -20,12 +20,12 @@ export default function ProfesorDashboard() {
         <h3 className="text-white font-bold mb-4 flex items-center gap-2">Estado de Cursos</h3>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="p-4 bg-slate-950 rounded-xl border border-slate-800">
-            <p className="text-sky-400 font-bold">2° Medio A</p>
-            <p className="text-slate-500">Asistencia: Pendiente</p>
+            <p className="text-sky-400 font-bold">Matematica</p>
+            <p className="text-slate-500">Asistencia: Ausente</p>
           </div>
           <div className="p-4 bg-slate-950 rounded-xl border border-slate-800">
-            <p className="text-sky-400 font-bold">3° Medio B</p>
-            <p className="text-slate-500">Asistencia: Registrada</p>
+            <p className="text-sky-400 font-bold">Lenguaje</p>
+            <p className="text-slate-500">Asistencia: Presente</p>
           </div>
         </div>
       </div>

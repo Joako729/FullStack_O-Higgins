@@ -1,11 +1,17 @@
 @import "tailwindcss";
 
+/* Configuración de colores globales */
 :root {
-  /* Negro claro para el fondo y gris claro para el texto */
-  --background: #121212;
-  --foreground: #ededed;
+  /* Forzamos fondo blanco y texto oscuro para máxima legibilidad */
+  --background: #ffffff;
+  --foreground: #171717;
+  
+  /* Variables de fuente originales del proyecto */
+  --font-geist-sans: "Geist Sans", sans-serif;
+  --font-mono: "Geist Mono", monospace;
 }
 
+/* Configuración del tema para Tailwind */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -13,30 +19,30 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Ajuste de Modo Oscuro: 
+   Si prefieres que la página NUNCA se ponga negra (para evitar errores visuales), 
+   puedes borrar este bloque @media. 
+   Si quieres mantenerlo, he ajustado los colores para que el texto sea claro sobre fondo oscuro.
+*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Estilos base del cuerpo */
 body {
-  background-color: var(--background) !important;
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
-  padding: 0;
-  /* Usamos la propiedad CSS estándar en lugar de la clase de Tailwind */
-  min-height: 100vh; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Estilos para la barra de desplazamiento */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #121212;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2d2d2d;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #3d3d3d;
+/* Corrección para asegurar que los textos dentro de main sean visibles */
+main {
+  background-color: var(--background);
+  color: var(--foreground);
 }

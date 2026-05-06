@@ -8,7 +8,7 @@ export default function EstudianteDashboard() {
   useEffect(() => {
     const session = localStorage.getItem('session');
     if (session) {
-      setUserName('Joaquín Marcelo'); 
+      setUserName('Estudiante'); // Aquí podrías parsear el session para obtener el nombre real
     }
   }, []);
 
